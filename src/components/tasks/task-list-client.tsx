@@ -7,14 +7,17 @@ import { normalizeCategory, isValidCategory } from "@/lib/categories";
 import type { TaskKey } from "@/lib/site-config";
 import type { SitePost } from "@/lib/site-connector";
 import { getLocalPostsForTask } from "@/lib/local-posts";
+import { cn } from "@/lib/utils";
 
 type Props = {
   task: TaskKey;
   initialPosts: SitePost[];
   category?: string;
+  /** Merged with default grid — e.g. `lg:grid-cols-3` for listing layout */
+  className?: string;
 };
 
-export function TaskListClient({ task, initialPosts, category }: Props) {
+export function TaskListClient({ task, initialPosts, category, className }: Props) {
   const localPosts = getLocalPostsForTask(task);
 
   const merged = useMemo(() => {
@@ -54,14 +57,14 @@ export function TaskListClient({ task, initialPosts, category }: Props) {
 
   if (!merged.length) {
     return (
-      <div className="rounded-2xl border border-dashed border-border p-10 text-center text-muted-foreground">
+      <div className="rounded-[1.75rem] border-2 border-dashed border-[#ffa9a9]/55 bg-[#fffbe3]/50 p-10 text-center text-[#6a425c] shadow-[inset_0_1px_0_rgba(255,255,255,0.65)]">
         No posts yet for this section.
       </div>
     );
   }
 
   return (
-    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+    <div className={cn("grid gap-6 sm:grid-cols-2 lg:grid-cols-4", className)}>
       {merged.map((post) => {
         const localOnly = (post as any).localOnly;
         const href = localOnly

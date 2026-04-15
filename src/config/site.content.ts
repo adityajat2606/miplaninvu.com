@@ -2,80 +2,120 @@ import type { TaskKey } from '@/lib/site-config'
 
 export const siteContent = {
   navbar: {
-    tagline: 'Independent reading platform',
+    tagline: 'miplaninvu.com · trusted listings',
   },
   footer: {
-    tagline: 'Stories, resources, and discoverable posts',
+    tagline: 'Top-rated directory',
+  },
+  /** Copy for the directory-style homepage (`DirectoryHome` in `page.tsx`) */
+  directoryHome: {
+    heroBadge: 'miplaninvu.com listings',
+    heroTitle: 'Find top-rated businesses and services without the noise.',
+    heroPlaceholderA: 'What are you looking for?',
+    heroPlaceholderB: 'City or area',
+    heroCta: 'Browse listings',
+    stats: [
+      { label: 'Trusted directory', value: 'miplaninvu.com' },
+      { label: 'Built to scan', value: 'Clear cards & details' },
+      { label: 'Made for action', value: 'Call, visit, compare' },
+    ],
+    primaryLaneTitle: 'Primary lane',
+    featuredEyebrow: 'Featured on miplaninvu.com',
+    featuredHeading: 'Listings visitors rely on.',
+    featuredLink: 'View all listings',
+    diffEyebrow: 'Why miplaninvu.com',
+    diffHeading: 'A listing site built for real discovery—not generic feeds.',
+    diffBullets: [
+      'Curated business profiles with location and contact details up front.',
+      'Cards designed for quick scanning on phone or desktop.',
+      'One home for miplaninvu.com’s top-rated directory experience.',
+    ],
+  },
+  /** Listings index (`/listings`) hero when layout is `listing-directory` */
+  listingPage: {
+    lead:
+      'Search and filter the miplaninvu.com directory—verified-style listings with categories, summaries, and the details you need to choose with confidence.',
+    exploreCta: 'Scroll listings',
+    searchCta: 'Site search',
+    filterLabel: 'Category',
+    filterSubmit: 'Apply',
   },
   hero: {
-    badge: 'Latest stories and visuals',
-    title: ['A thoughtful home for', 'stories, visuals, and discovery.'],
+    badge: 'miplaninvu.com',
+    title: ['Top-rated', 'business listings.'],
     description:
-      'Explore fresh articles, image-led posts, and discoverable content across the platform through a calmer and clearer browsing experience.',
+      'Browse trusted businesses and services on miplaninvu.com—structured listings, clear metadata, and a directory built for fast decisions.',
     primaryCta: {
-      label: 'Read latest stories',
-      href: '/articles',
+      label: 'Open listings',
+      href: '/listings',
     },
     secondaryCta: {
-      label: 'Explore visuals',
-      href: '/image-sharing',
+      label: 'Search the site',
+      href: '/search',
     },
-    searchPlaceholder: 'Search stories, visuals, listings, and more',
-    focusLabel: 'Focus',
-    featureCardBadge: 'latest cover rotation',
-    featureCardTitle: 'Latest posts shape the visual identity of the homepage.',
+    searchPlaceholder: 'Search miplaninvu.com listings and pages',
+    focusLabel: 'Category',
+    featureCardBadge: 'Featured listings',
+    featureCardTitle: 'Fresh listings shape what visitors see first on miplaninvu.com.',
     featureCardDescription:
-      'Recent images and stories stay at the center of the experience without changing any core platform behavior.',
+      'New and highlighted businesses stay visible so the directory stays useful for people browsing on any device.',
   },
   home: {
     metadata: {
-      title: 'Stories, visuals, and discoverable content',
+      title: 'miplaninvu.com — top-rated business listings',
       description:
-        'Explore articles, images, listings, and curated posts through a cleaner reading-first experience.',
-      openGraphTitle: 'Stories, visuals, and discoverable content',
+        'miplaninvu.com is a top-rated listing site for discovering verified businesses, services, and local spots—browse categories, compare options, and act with confidence.',
+      openGraphTitle: 'miplaninvu.com — business listings directory',
       openGraphDescription:
-        'Discover articles, visual posts, and connected content through a calmer reading-first experience.',
-      keywords: ['story platform', 'article site', 'visual content', 'content discovery'],
+        'Find and compare top-rated listings on miplaninvu.com. Clear profiles, categories, and trust cues in one place.',
+      keywords: [
+        'miplaninvu',
+        'miplaninvu.com',
+        'business listings',
+        'top rated listings',
+        'local directory',
+        'verified businesses',
+      ],
     },
-    introBadge: 'About the platform',
-    introTitle: 'Built for reading, browsing, and connecting different kinds of content.',
+    introBadge: 'About miplaninvu.com',
+    introTitle: 'The listing directory built for people who want clarity, not clutter.',
     introParagraphs: [
-      'This site brings together article-style reading, visual browsing, and structured discovery so visitors can move naturally between different content types.',
-      'Instead of separating stories, visuals, and supporting resources into disconnected surfaces, the platform keeps them connected in one place with consistent navigation and easier exploration.',
-      'Whether someone starts with a story, an image-led post, a listing, or a resource page, they can keep discovering related content without friction.',
+      'miplaninvu.com focuses on business listings first—so owners get a proper profile and visitors get the facts they need in seconds.',
+      'Whether you are choosing a service, a place to visit, or a brand to trust, the site keeps scanning fast and details easy to compare.',
+      'This is the public home of the miplaninvu.com directory experience: structured listings, consistent cards, and navigation that stays out of your way.',
     ],
     sideBadge: 'At a glance',
     sidePoints: [
-      'Reading-first homepage with stronger emphasis on stories and imagery.',
-      'Connected sections for articles, visuals, listings, and supporting resources.',
-      'Cleaner browsing rhythm designed to make exploration feel easier.',
-      'Lightweight interactions that keep the experience fast and readable.',
+      'Top-rated listing presentation with strong trust and location cues.',
+      'Category-friendly browsing aligned with how people search locally.',
+      'Built for mobile scanning and quick jumps to contact or map info.',
+      'A focused alternative to noisy social feeds and generic search results.',
     ],
     primaryLink: {
-      label: 'Browse articles',
-      href: '/articles',
+      label: 'Browse listings',
+      href: '/listings',
     },
     secondaryLink: {
-      label: 'See visuals',
-      href: '/image-sharing',
+      label: 'Search miplaninvu.com',
+      href: '/search',
     },
   },
   cta: {
-    badge: 'Start exploring',
-    title: 'Explore articles, visuals, and resources through one connected experience.',
+    badge: 'List on miplaninvu.com',
+    title: 'Reach people who are actively looking for businesses like yours.',
     description:
-      'Move between articles, image-led posts, listings, and resources through one clearer and more connected visual system.',
+      'Add or manage your listing on miplaninvu.com so customers find accurate hours, services, and contact information in our top-rated directory.',
     primaryCta: {
-      label: 'Get Started Free',
+      label: 'Create an account',
       href: '/register',
     },
     secondaryCta: {
-      label: 'Contact Sales',
+      label: 'Contact us',
       href: '/contact',
     },
   },
   taskSectionHeading: 'Latest {label}',
-  taskSectionDescriptionSuffix: 'Browse the newest posts in this section.',
+  taskSectionDescriptionSuffix: 'New and updated entries on miplaninvu.com.',
 } as const
 
 export const taskPageMetadata: Record<Exclude<TaskKey, 'comment' | 'org' | 'social'>, { title: string; description: string }> = {
@@ -84,8 +124,9 @@ export const taskPageMetadata: Record<Exclude<TaskKey, 'comment' | 'org' | 'soci
     description: 'Read articles, stories, guides, and long-form posts across topics and interests.',
   },
   listing: {
-    title: 'Listings and discoverable pages',
-    description: 'Explore listings, services, brands, and structured pages organized for easier browsing.',
+    title: 'Business listings — miplaninvu.com',
+    description:
+      'Browse the miplaninvu.com directory: top-rated style listings with categories, summaries, and the details you need to pick the right business.',
   },
   classified: {
     title: 'Classifieds and announcements',
@@ -114,16 +155,16 @@ export const taskIntroCopy: Record<
   { title: string; paragraphs: string[]; links: { label: string; href: string }[] }
 > = {
   listing: {
-    title: 'Listings, services, and structured pages',
+    title: 'About listings on miplaninvu.com',
     paragraphs: [
-      'Explore listings, services, brands, and discoverable pages across categories. Each entry is organized to make browsing clearer and help visitors quickly understand what a post offers.',
-      'Listings connect naturally with articles, images, resources, and other content types so supporting information stays easy to reach from the same platform.',
-      'Browse by category to compare posts in context, discover related content, and move between formats without losing your place.',
+      'Each listing on miplaninvu.com is structured so you can see category, summary, and contact-style details at a glance—ideal when you are comparing local businesses or services.',
+      'Use categories to narrow the directory, then open a profile for full information. The site is built for scanning first, so you spend less time hunting for basics.',
+      'miplaninvu.com is maintained as a top-rated listing experience: clear cards, consistent fields, and navigation that keeps you moving toward the right choice.',
     ],
     links: [
-      { label: 'Read articles', href: '/articles' },
-      { label: 'Explore classifieds', href: '/classifieds' },
-      { label: 'View profiles', href: '/profile' },
+      { label: 'Site search', href: '/search' },
+      { label: 'Help', href: '/help' },
+      { label: 'Contact', href: '/contact' },
     ],
   },
   article: {
