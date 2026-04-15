@@ -4,7 +4,7 @@ import { useMemo, useState } from 'react'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Search, Menu, X, User, FileText, Building2, LayoutGrid, Tag, Image as ImageIcon, ChevronRight, Sparkles, Plus } from 'lucide-react'
+import { Search, Menu, X, User, FileText, Building2, LayoutGrid, Tag, Image as ImageIcon, ChevronRight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/lib/auth-context'
 import { SITE_CONFIG, type TaskKey } from '@/lib/site-config'
@@ -106,6 +106,10 @@ export function Navbar() {
   }))
   const primaryTask = SITE_CONFIG.tasks.find((task) => task.key === recipe.primaryTask && task.enabled) || primaryNavigation[0]
   const isDirectoryProduct = recipe.homeLayout === 'listing-home' || recipe.homeLayout === 'classified-home'
+  const utilityLinks = [
+    { name: 'About', href: '/about' },
+    { name: 'Contact Us', href: '/contact' },
+  ]
 
   if (isDirectoryProduct) {
     const palette = directoryPalette[(recipe.brandPack === 'market-utility' ? 'market-utility' : 'directory-clean') as keyof typeof directoryPalette]
@@ -138,19 +142,33 @@ export function Navbar() {
                     </Link>
                   )
                 })}
+                {utilityLinks.map((item) => {
+                  const isActive = pathname.startsWith(item.href)
+                  return (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      className={cn('text-sm font-semibold transition-colors', isActive ? palette.navActive : palette.nav)}
+                    >
+                      {item.name}
+                    </Link>
+                  )
+                })}
               </div>
             </div>
 
             <div className="flex shrink-0 items-center gap-1.5 sm:gap-3">
-              {primaryTask ? (
-                <Link
-                  href={primaryTask.route}
-                  className="hidden items-center gap-2 rounded-full border border-[#fffbe3]/25 px-2.5 py-2 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#fffbe3]/90 sm:px-3 sm:text-xs md:inline-flex"
-                >
-                  <Sparkles className="h-3.5 w-3.5 shrink-0 text-[#ffa9a9]" />
-                  {primaryTask.label}
-                </Link>
-              ) : null}
+              <form action="/search" className="hidden items-center gap-2 lg:flex">
+                <div className="relative">
+                  <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-current/55" />
+                  <input
+                    type="search"
+                    name="q"
+                    placeholder="Search..."
+                    className="h-10 w-48 rounded-full border border-current/20 bg-white/75 pl-9 pr-3 text-sm text-slate-900 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#ffa9a9]/45"
+                  />
+                </div>
+              </form>
 
               {isAuthenticated ? (
                 <NavbarAuthControls />
@@ -158,12 +176,6 @@ export function Navbar() {
                 <div className="hidden items-center gap-2 md:flex">
                   <Button variant="ghost" size="sm" asChild className={cn('rounded-full px-4', palette.signIn)}>
                     <Link href="/login">Sign In</Link>
-                  </Button>
-                  <Button size="sm" asChild className={cn('rounded-full font-semibold', palette.cta)}>
-                    <Link href="/register">
-                      <Plus className="mr-1 h-4 w-4" />
-                      Add Listing
-                    </Link>
                   </Button>
                 </div>
               )}
@@ -184,6 +196,17 @@ export function Navbar() {
           {isMobileMenuOpen ? (
             <div className={palette.mobile}>
               <div className="space-y-2 px-3 py-4 sm:px-4">
+                <form action="/search" className="mb-3 flex gap-2">
+                  <input
+                    type="search"
+                    name="q"
+                    placeholder="Search..."
+                    className="h-11 min-w-0 flex-1 rounded-2xl border border-[#fffbe3]/22 bg-[#fffbe3]/12 px-4 text-sm text-[#fffbe3] placeholder:text-[#fffbe3]/70 focus:outline-none focus:ring-2 focus:ring-[#ffa9a9]/50"
+                  />
+                  <Button type="submit" size="sm" className="h-11 rounded-2xl bg-[#ffa9a9] px-4 text-[#26271a] hover:bg-[#ff9494]">
+                    Go
+                  </Button>
+                </form>
                 {mobileNavigation.map((item) => {
                   const isActive = pathname.startsWith(item.href)
                   return (
@@ -197,6 +220,22 @@ export function Navbar() {
                       )}
                     >
                       <item.icon className="h-5 w-5 shrink-0" />
+                      {item.name}
+                    </Link>
+                  )
+                })}
+                {utilityLinks.map((item) => {
+                  const isActive = pathname.startsWith(item.href)
+                  return (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className={cn(
+                        'flex items-center rounded-2xl px-4 py-3 text-sm font-semibold transition-colors',
+                        isActive ? 'bg-[#ffa9a9] text-[#26271a]' : palette.post,
+                      )}
+                    >
                       {item.name}
                     </Link>
                   )
@@ -239,6 +278,14 @@ export function Navbar() {
                   </Link>
                 )
               })}
+              {utilityLinks.map((item) => {
+                const isActive = pathname.startsWith(item.href)
+                return (
+                  <Link key={item.href} href={item.href} className={cn('text-sm font-semibold uppercase tracking-[0.18em] transition-colors', isActive ? 'text-[#2f1d16]' : 'text-[#7b6254] hover:text-[#2f1d16]')}>
+                    {item.name}
+                  </Link>
+                )
+              })}
               <div className="h-px flex-1 bg-[#d8c8bb]" />
             </div>
           ) : isFloating ? (
@@ -253,6 +300,14 @@ export function Navbar() {
                   </Link>
                 )
               })}
+              {utilityLinks.map((item) => {
+                const isActive = pathname.startsWith(item.href)
+                return (
+                  <Link key={item.href} href={item.href} className={cn('flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold transition-colors', isActive ? style.active : style.idle)}>
+                    <span>{item.name}</span>
+                  </Link>
+                )
+              })}
             </div>
           ) : isUtility ? (
             <div className="hidden min-w-0 flex-1 items-center gap-2 xl:flex">
@@ -261,6 +316,14 @@ export function Navbar() {
                 return (
                   <Link key={task.key} href={task.route} className={cn('rounded-lg px-3 py-2 text-sm font-semibold transition-colors', isActive ? style.active : style.idle)}>
                     {task.label}
+                  </Link>
+                )
+              })}
+              {utilityLinks.map((item) => {
+                const isActive = pathname.startsWith(item.href)
+                return (
+                  <Link key={item.href} href={item.href} className={cn('rounded-lg px-3 py-2 text-sm font-semibold transition-colors', isActive ? style.active : style.idle)}>
+                    {item.name}
                   </Link>
                 )
               })}
@@ -277,24 +340,30 @@ export function Navbar() {
                   </Link>
                 )
               })}
+              {utilityLinks.map((item) => {
+                const isActive = pathname.startsWith(item.href)
+                return (
+                  <Link key={item.href} href={item.href} className={cn('flex items-center gap-2 rounded-full px-3 py-2 text-sm font-semibold transition-colors whitespace-nowrap', isActive ? style.active : style.idle)}>
+                    <span>{item.name}</span>
+                  </Link>
+                )
+              })}
             </div>
           )}
         </div>
 
         <div className="flex shrink-0 items-center gap-2 sm:gap-3">
-          {primaryTask && (recipe.navbar === 'utility-bar' || recipe.navbar === 'floating-bar') ? (
-            <Link href={primaryTask.route} className="hidden items-center gap-2 rounded-full border border-current/10 px-3 py-2 text-xs font-semibold uppercase tracking-[0.16em] opacity-80 md:inline-flex">
-              <Sparkles className="h-3.5 w-3.5" />
-              {primaryTask.label}
-            </Link>
-          ) : null}
-
-          <Button variant="ghost" size="icon" asChild className="hidden rounded-full md:flex">
-            <Link href="/search">
-              <Search className="h-5 w-5" />
-              <span className="sr-only">Search</span>
-            </Link>
-          </Button>
+          <form action="/search" className="hidden items-center gap-2 md:flex">
+            <div className="relative">
+              <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-current/55" />
+              <input
+                type="search"
+                name="q"
+                placeholder="Search..."
+                className="h-10 w-52 rounded-full border border-current/20 bg-background/80 pl-9 pr-3 text-sm placeholder:text-current/60 focus:outline-none focus:ring-2 focus:ring-current/20"
+              />
+            </div>
+          </form>
 
           {isAuthenticated ? (
             <NavbarAuthControls />
@@ -328,15 +397,30 @@ export function Navbar() {
       {isMobileMenuOpen && (
         <div className={style.mobile}>
           <div className="space-y-2 px-4 py-4">
-            <Link href="/search" onClick={() => setIsMobileMenuOpen(false)} className="mb-3 flex items-center gap-3 rounded-2xl border border-border bg-card px-4 py-3 text-sm font-semibold text-muted-foreground">
-              <Search className="h-4 w-4" />
-              Search the site
-            </Link>
+            <form action="/search" className="mb-3 flex gap-2">
+              <input
+                type="search"
+                name="q"
+                placeholder="Search the site..."
+                className="h-11 min-w-0 flex-1 rounded-2xl border border-border bg-card px-4 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
+              />
+              <Button type="submit" size="sm" className="h-11 rounded-2xl px-4">
+                Go
+              </Button>
+            </form>
             {mobileNavigation.map((item) => {
               const isActive = pathname.startsWith(item.href)
               return (
                 <Link key={item.name} href={item.href} onClick={() => setIsMobileMenuOpen(false)} className={cn('flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-semibold transition-colors', isActive ? style.active : style.idle)}>
                   <item.icon className="h-5 w-5" />
+                  {item.name}
+                </Link>
+              )
+            })}
+            {utilityLinks.map((item) => {
+              const isActive = pathname.startsWith(item.href)
+              return (
+                <Link key={item.href} href={item.href} onClick={() => setIsMobileMenuOpen(false)} className={cn('flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-semibold transition-colors', isActive ? style.active : style.idle)}>
                   {item.name}
                 </Link>
               )

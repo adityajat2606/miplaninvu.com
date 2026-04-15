@@ -149,7 +149,7 @@ function DirectoryHome({ primaryTask, enabledTasks, listingPosts, classifiedPost
   const tone = getDirectoryTone(brandPack)
   const featuredListings = (listingPosts.length ? listingPosts : classifiedPosts).slice(0, 3)
   const featuredTaskKey: TaskKey = listingPosts.length ? 'listing' : 'classified'
-  const quickRoutes = enabledTasks.slice(0, 4)
+  const quickRoutes = enabledTasks.filter((task) => task.key !== 'listing').slice(0, 4)
 
   return (
     <main>
@@ -166,14 +166,24 @@ function DirectoryHome({ primaryTask, enabledTasks, listingPosts, classifiedPost
               </h1>
               <p className={`mt-6 max-w-2xl text-base leading-8 ${tone.muted}`}>{SITE_CONFIG.description}</p>
 
-              <div className={`mt-8 grid gap-3 rounded-[2rem] p-4 ${tone.panel} md:grid-cols-[1.25fr_0.8fr_auto]`}>
-                <div className="rounded-full border border-[#6a425c]/10 bg-[#fffbe3]/90 px-4 py-3 text-sm text-[#6a425c]">{siteContent.directoryHome.heroPlaceholderA}</div>
-                <div className="rounded-full border border-[#6a425c]/10 bg-[#fffbe3]/90 px-4 py-3 text-sm text-[#6a425c]">{siteContent.directoryHome.heroPlaceholderB}</div>
-                <Link href={primaryTask?.route || '/listings'} className={`inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold ${tone.action}`}>
+              <form action="/search" className={`mt-8 grid gap-3 rounded-[2rem] p-4 ${tone.panel} md:grid-cols-[1.25fr_0.8fr_auto]`}>
+                <input
+                  type="search"
+                  name="q"
+                  placeholder={siteContent.directoryHome.heroPlaceholderA}
+                  className="h-[46px] rounded-full border border-[#6a425c]/10 bg-[#fffbe3]/90 px-4 text-sm text-[#26271a] placeholder:text-[#6a425c] focus:outline-none focus:ring-2 focus:ring-[#ffa9a9]/45"
+                />
+                <input
+                  type="text"
+                  name="category"
+                  placeholder={siteContent.directoryHome.heroPlaceholderB}
+                  className="h-[46px] rounded-full border border-[#6a425c]/10 bg-[#fffbe3]/90 px-4 text-sm text-[#26271a] placeholder:text-[#6a425c] focus:outline-none focus:ring-2 focus:ring-[#ffa9a9]/45"
+                />
+                <button type="submit" className={`inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold ${tone.action}`}>
                   {siteContent.directoryHome.heroCta}
                   <ArrowRight className="h-4 w-4" />
-                </Link>
-              </div>
+                </button>
+              </form>
 
               <div className="mt-8 grid gap-3 sm:grid-cols-3">
                 {siteContent.directoryHome.stats.map(({ label, value }) => (
