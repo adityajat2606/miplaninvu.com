@@ -1,4 +1,4 @@
-import Link from 'next/link'
+﻿import Link from 'next/link'
 import { ArrowRight, Building2, FileText, Image as ImageIcon, LayoutGrid, Tag, User } from 'lucide-react'
 import { NavbarShell } from '@/components/shared/navbar-shell'
 import { Footer } from '@/components/shared/footer'
@@ -9,6 +9,7 @@ import { SITE_CONFIG, getTaskConfig, type TaskKey } from '@/lib/site-config'
 import { CATEGORY_OPTIONS, normalizeCategory } from '@/lib/categories'
 import { siteContent, taskIntroCopy } from '@/config/site.content'
 import { getFactoryState } from '@/design/factory/get-factory-state'
+import { getDirectoryUiPreset } from '@/design/directory-ui'
 
 const taskIcons: Record<TaskKey, any> = {
   listing: Building2,
@@ -52,8 +53,9 @@ export async function TaskListPage({ task, category }: { task: TaskKey; category
     name: post.title,
   }))
   const { recipe } = getFactoryState()
+  const directoryUi = getDirectoryUiPreset()
   const layoutKey = recipe.taskLayouts[task as keyof typeof recipe.taskLayouts] || `${task}-${task === 'listing' ? 'directory' : 'editorial'}`
-  const shellClass = variantShells[layoutKey as keyof typeof variantShells] || 'bg-background'
+  const shellClass = task === 'listing' ? directoryUi.shell : variantShells[layoutKey as keyof typeof variantShells] || 'bg-background'
   const Icon = taskIcons[task] || LayoutGrid
 
   const isDark = ['image-masonry', 'image-portfolio', 'profile-creator'].includes(layoutKey)
@@ -117,7 +119,7 @@ export async function TaskListPage({ task, category }: { task: TaskKey; category
         ) : null}
 
         {layoutKey === 'listing-directory' || layoutKey === 'listing-showcase' ? (
-          <section className="mb-10 border-b border-[#6a425c]/12 pb-8">
+          <section className={`mb-10 -mx-4 border-y px-4 py-8 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8 ${directoryUi.hero}`}>
             <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#6a425c]/75">{SITE_CONFIG.domain}</p>
             <div className="mt-2 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
               <div className="min-w-0 flex-1">
@@ -134,19 +136,19 @@ export async function TaskListPage({ task, category }: { task: TaskKey; category
               <div className="flex shrink-0 flex-wrap gap-2 sm:justify-end">
                 <Link
                   href={taskConfig?.route || '#'}
-                  className={`inline-flex items-center gap-2 rounded-full px-4 py-2.5 text-sm font-semibold ${ui.button}`}
+                  className={`inline-flex items-center gap-2 px-4 py-2.5 text-sm font-semibold ${directoryUi.primaryButton}`}
                 >
                   {siteContent.listingPage.exploreCta}
                   <ArrowRight className="h-4 w-4" aria-hidden />
                 </Link>
-                <Link href="/search" className={`inline-flex items-center gap-2 rounded-full border border-[#6a425c]/18 px-4 py-2.5 text-sm font-semibold ${ui.soft}`}>
+                <Link href="/search" className={`inline-flex items-center gap-2 px-4 py-2.5 text-sm font-semibold ${directoryUi.secondaryButton}`}>
                   {siteContent.listingPage.searchCta}
                 </Link>
               </div>
             </div>
 
             <form
-              className={`mt-8 flex flex-col gap-3 rounded-2xl border border-[#6a425c]/12 bg-white/80 p-4 sm:flex-row sm:flex-wrap sm:items-end sm:gap-4`}
+              className={`mt-8 flex flex-col gap-3 p-4 sm:flex-row sm:flex-wrap sm:items-end sm:gap-4 ${directoryUi.panel}`}
               action={taskConfig?.route || '#'}
             >
               <div className="min-w-[200px] flex-1 sm:max-w-xs">
@@ -157,7 +159,7 @@ export async function TaskListPage({ task, category }: { task: TaskKey; category
                   id="listing-category"
                   name="category"
                   defaultValue={normalizedCategory}
-                  className={`mt-1.5 h-11 w-full rounded-xl px-3 text-sm ${ui.input}`}
+                  className={`mt-1.5 h-11 w-full px-3 text-sm ${directoryUi.input}`}
                 >
                   <option value="all">All categories</option>
                   {CATEGORY_OPTIONS.map((item) => (
@@ -167,7 +169,7 @@ export async function TaskListPage({ task, category }: { task: TaskKey; category
                   ))}
                 </select>
               </div>
-              <button type="submit" className={`h-11 shrink-0 rounded-xl px-6 text-sm font-semibold ${ui.button}`}>
+              <button type="submit" className={`h-11 shrink-0 px-6 text-sm font-semibold ${directoryUi.primaryButton}`}>
                 {siteContent.listingPage.filterSubmit}
               </button>
             </form>
@@ -279,9 +281,10 @@ export async function TaskListPage({ task, category }: { task: TaskKey; category
           </section>
         ) : null}
 
-        <TaskListClient task={task} initialPosts={posts} category={normalizedCategory} className={task === 'listing' ? 'lg:grid-cols-3' : undefined} />
+        <TaskListClient task={task} initialPosts={posts} category={normalizedCategory} />
       </main>
       <Footer />
     </div>
   )
 }
+
