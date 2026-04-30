@@ -244,7 +244,7 @@ export function DirectoryTaskDetailPage({
           <div className="mx-auto mt-8 max-w-7xl px-4 sm:px-6 lg:px-8">
             <h2 className={`text-2xl font-semibold ${ui.title}`}>Property Description</h2>
             <div className={`mt-6 rounded-xl border p-6 ${ui.chip}`}>
-              <p className={`text-base leading-8 ${ui.muted}`}>{description}</p>
+              <div className={`text-base leading-8 ${ui.muted}`} dangerouslySetInnerHTML={{ __html: description }} />
             </div>
           </div>
         )}
